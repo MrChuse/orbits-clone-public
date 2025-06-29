@@ -27,7 +27,7 @@ Public version of 12 orbits clone.
 #### Linux
 ```
 python -m venv venv
-venv/bin/activate
+source venv/bin/activate
 pip install -r requirements.txt
 python main.py
 ```
