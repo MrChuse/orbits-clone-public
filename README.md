@@ -2,10 +2,10 @@
 Public version of 12 orbits clone.
 
 ## The game
-- Needs a gif
+![Gameplay](https://github.com/MrChuse/orbits-clone-public/blob/main/meida/gameplay.gif)
 
 #### The rules
-- You control a sphere which flies around the field
+- You control a snake which flies around the field
 - Your goal is to be the last snake standing
 - You collect white spheres to grow your tail
 - When you hit your opponents' tail, you lose
@@ -14,7 +14,6 @@ Public version of 12 orbits clone.
 - When you press again, you release from the rotator and start flying straight again
 - When you press your action button while outside the rotator, you dodge and gain invincibility for a short time
 - Also, when dodging, if you have any tail left, you shoot a single sphere in front of you which can kill other snakes
-- Last snake standing wins
 
 #### The points
 - N is the number of players
