@@ -2,7 +2,7 @@
 Public version of 12 orbits clone.
 
 ## The game
-![Gameplay](https://github.com/MrChuse/orbits-clone-public/blob/main/meida/gameplay.gif)
+![Gameplay](/media/gameplay.gif)
 
 #### The rules
 - You control a snake which flies around the field
