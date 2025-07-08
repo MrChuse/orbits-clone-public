@@ -35,7 +35,7 @@ python main.py
 #### Windows
 ```
 python -m venv venv
-venv\Sctipts\activate
+venv\Scripts\activate
 pip install -r requirements.txt
 python main.py
 ```
