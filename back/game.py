@@ -299,7 +299,7 @@ class Game:
             direction = right.rotate(angle)
             position = center.lerp(center+direction, t)
             sphere.center = position
-            if t > 0.5:
+            if t > 0:
                 velocity = (center - position).rotate(-90)
                 velocity.scale_to_length(DEFAULT_SPEED)
                 sphere.velocity = velocity
