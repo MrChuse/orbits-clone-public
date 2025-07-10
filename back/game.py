@@ -72,7 +72,7 @@ class Game:
         self.total_uniforms = 0
 
         self.player_spheres: list[PlayerSphere] = []
-        self.bot_player_spheres: list[Bot] = []
+        self.bot_player_spheres: list[PlayerSphere] = []
         self.active_spheres: list[Sphere] = []
         self.inactive_spheres: list[Sphere] = []
         self.bursts = []
@@ -113,11 +113,13 @@ class Game:
 
         self.bot_player_spheres = []
         self.player_spheres = []
-        for key, (team, name, PlayerClass) in self.colors.items():
+        for key, (team, name, BotClass_or_None) in self.colors.items():
             pos = Vector2(0, 0)
             vel = Vector2(DEFAULT_SPEED, 0)
-            ps = PlayerClass(pos, vel, PLAYER_SIZE, team.value)
-            if isinstance(ps, Bot):
+            ps = PlayerSphere(pos, vel, PLAYER_SIZE, team.value)
+            bot = BotClass_or_None(ps)
+            ps.add_bot(bot)
+            if BotClass_or_None is not None:
                 self.bot_player_spheres.append(ps)
             self.player_spheres.append(ps)
 
@@ -389,7 +391,7 @@ class Game:
         state = self.get_state()
         bots_actions = []
         for bot, key in zip(self.bot_player_spheres, BotKeys):
-            action = bot.get_action(state, time_delta)
+            action = bot.bot.get_action(state, time_delta)
             if action:
                 bots_actions.append(key)
         self.process_actions(bots_actions)
@@ -496,3 +498,5 @@ class Game:
     def draw_debug(self, debug_surface: pygame.Surface):
         for i in self.player_spheres:
             i.draw_debug(debug_surface)
+            if i.bot:
+                i.bot.draw_debug(debug_surface)

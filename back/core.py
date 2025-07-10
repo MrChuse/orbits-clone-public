@@ -7,6 +7,10 @@ import math
 import pygame
 from pygame import Vector2
 
+import typing
+if typing.TYPE_CHECKING:
+    from bots import Bot
+
 # reference from picture in pixels
 REFERENCE_SCREEN_SIZE = 885
 REFERENCE_ROTATOR_SIZE = 285
@@ -146,6 +150,10 @@ class PlayerSphere(Sphere):
         self.trail : list[Sphere] = []
         self.attacking_spheres: list[Sphere] = []
         self.alive = True
+        self.bot : Optional['Bot'] = None
+
+    def add_bot(self, bot: Optional['Bot']):
+        self.bot = bot
 
     def is_dodging(self):
         return 0 < self.frames_from_dodge <= self.max_dodge_duration
@@ -221,8 +229,15 @@ class PlayerSphere(Sphere):
 
     def draw_debug(self, debug_surface: pygame.Surface):
         size = debug_surface.get_rect().size
+
+        import pygame.freetype
+        pygame.freetype.init()
+        font = pygame.freetype.SysFont('arial', 25)
+
         def mul(point, size):
             return point[0]*min(size), point[1]*min(size)
+        
+        font.render_to(debug_surface, mul([self.center[0]+0.025, self.center[1]], size), f'{self.bot}', self.color, size=10)
         pygame.draw.line(debug_surface, (255,255,255), mul(self.center, size), mul(self.center+self.velocity*20, size), width=3)
         pygame.draw.circle(debug_surface, (255, 255, 255), mul(self.path[0], size), 5)
         pygame.draw.circle(debug_surface, (255, 255, 255), mul(self.path[-1], size), 5)

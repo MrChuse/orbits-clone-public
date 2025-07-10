@@ -1,5 +1,4 @@
 import random
-from typing import Any
 
 from back.core import GameState
 from . import Bot
@@ -12,12 +11,12 @@ class RandomBot():
         self.cutoff = cutoff
         self.__name__ = f'RandomBot{cutoff}'
 
-    def __call__(self, center, velocity, radius, color):
-        return RandomBotThing(self.cutoff, center, velocity, radius, color)
+    def __call__(self, player):
+        return RandomBotThing(self.cutoff, player)
 
 class RandomBotThing(Bot):
-    def __init__(self, cutoff, center, velocity, radius, color):
-        super().__init__(center, velocity, radius, color)
+    def __init__(self, cutoff, player):
+        super().__init__(player)
         self.cutoff = cutoff
     def get_action(self, state: GameState, time_delta: float) -> bool:
         return random.random() < self.cutoff

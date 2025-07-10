@@ -201,23 +201,23 @@ class PickColorScreen(Screen):
         self.remove_player(bot_enum)
         self.num_bots -= 1
 
-    def add_player(self, key, team, name, PlayerClass):
-        self.key_map[key] = team, name, PlayerClass
+    def add_player(self, key, team, name, BotClass_or_None):
+        self.key_map[key] = team, name, BotClass_or_None
         self.unavailable_teams.append(team)
         if key not in self.order:
             self.order.append(key)
 
     def remove_player(self, key):
-        team, name, PlayerClass = self.key_map.pop(key)
+        team, name, BotClass_or_None = self.key_map.pop(key)
         self.unavailable_teams.remove(team)
 
-    def process_player_action(self, key, name):
+    def add_human(self, key, name):
         if key in self.key_map:
             self.remove_player(key)
         else:
             team = self.find_available_team(key)
             if team is not None:
-                self.add_player(key, team, name, PlayerSphere)
+                self.add_player(key, team, name, None)
 
     def update(self, time_delta):
         for key, name in self.captured_keys:
@@ -226,7 +226,7 @@ class PickColorScreen(Screen):
                     self.return_value = self.key_map
                     self.is_running = False
             else:
-                self.process_player_action(key, name)
+                self.add_human(key, name)
         self.captured_keys = []
 
         size = self.surface.get_rect().size
@@ -234,7 +234,7 @@ class PickColorScreen(Screen):
         surf2, textsize2 = font.render('then hit space', (255, 255, 255), size=32)
         self.surface.blit(surf1, (30, 30))
         self.surface.blit(surf2, (30, size[1] - 30 - textsize2[1]))
-        for key, (team, name, PlayerClass) in self.key_map.items():
+        for key, (team, name, BotClass_or_None) in self.key_map.items():
             i = self.order.index(key)
             pos = calculate_players_leaderboard_positions(size, i)
             draw_player_leaderboard(self.surface, pos, name, team.value)
