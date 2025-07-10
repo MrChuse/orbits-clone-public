@@ -152,15 +152,21 @@ class PlayerSphere(Sphere):
         self.alive = True
         self.bot : Optional['Bot'] = None
 
-    def add_bot(self, bot: Optional['Bot']):
-        self.bot = bot
-
     def is_dodging(self):
         return 0 < self.frames_from_dodge <= self.max_dodge_duration
     def is_dodge_cooldown(self):
         return self.max_dodge_duration < self.frames_from_dodge < self.max_dodge_duration + self.cooldown_duration
     def can_dodge(self):
         return self.frames_from_dodge == 0
+
+    def is_in_rotator(self, rotators):
+        for rotator in rotators:
+            if self.check_center_inside(rotator):
+                return True
+        return False
+
+    def add_bot(self, bot: Optional['Bot']):
+        self.bot = bot
 
     def add_sphere_to_queue(self, sphere: Sphere):
         self.queue_to_trail.append(sphere)
@@ -180,12 +186,6 @@ class PlayerSphere(Sphere):
             return self.path[self.path_size_per_trail_sphere * i - 1]
         except IndexError:
             return self.path[-1]
-
-    def is_in_rotator(self, rotators):
-        for rotator in rotators:
-            if self.check_center_inside(rotator):
-                return True
-        return False
 
     def update(self):
         if not self.alive: return
