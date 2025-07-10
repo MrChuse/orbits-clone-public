@@ -16,7 +16,7 @@ def main():
     if settings['fullscreen']:
         window_surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     else:
-        window_surface = pygame.display.set_mode((600, 300), pygame.RESIZABLE)
+        window_surface = pygame.display.set_mode((1200, 600), pygame.RESIZABLE)
 
     pcs = PickColorScreen(window_surface)
     colors = pcs.main()
