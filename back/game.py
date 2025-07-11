@@ -497,6 +497,7 @@ class Game:
 
     def draw_debug(self, debug_surface: pygame.Surface):
         for i in self.player_spheres:
-            i.draw_debug(debug_surface)
-            if i.bot:
+            if i.bot is None:
+                i.draw_debug(debug_surface)
+            else:
                 i.bot.draw_debug(debug_surface)
