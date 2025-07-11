@@ -237,7 +237,7 @@ class PlayerSphere(Sphere):
         def mul(point, size):
             return point[0]*min(size), point[1]*min(size)
         
-        font.render_to(debug_surface, mul([self.center[0]+0.025, self.center[1]], size), f'{self.bot}', self.color, size=10)
+        font.render_to(debug_surface, mul([self.center[0]+0.025, self.center[1]], size), f'{self.bot.__class__.__name__}', self.color, size=10)
         pygame.draw.line(debug_surface, (255,255,255), mul(self.center, size), mul(self.center+self.velocity*20, size), width=3)
         pygame.draw.circle(debug_surface, (255, 255, 255), mul(self.path[0], size), 5)
         pygame.draw.circle(debug_surface, (255, 255, 255), mul(self.path[-1], size), 5)
