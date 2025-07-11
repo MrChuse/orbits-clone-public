@@ -117,9 +117,9 @@ class Game:
             pos = Vector2(0, 0)
             vel = Vector2(DEFAULT_SPEED, 0)
             ps = PlayerSphere(pos, vel, PLAYER_SIZE, team.value)
-            bot = BotClass_or_None(ps)
-            ps.add_bot(bot)
             if BotClass_or_None is not None:
+                bot = BotClass_or_None(ps)
+                ps.add_bot(bot)
                 self.bot_player_spheres.append(ps)
             self.player_spheres.append(ps)
 
