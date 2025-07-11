@@ -5,6 +5,14 @@ import pygame
 from back.core import GameState, PlayerSphere
 
 class Bot(ABC):
+    '''Base class for all bots
+
+    All bots should implement a get_action function to make decisions
+    on whether to press action button or not.
+    
+    Look at PlayerSphere class to see which fields are available there
+    Look at GameState class to see which fields are available there
+    '''
     @abstractmethod
     def get_action(self, state: GameState, time_delta: float) -> bool:
         return False

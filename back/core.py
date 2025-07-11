@@ -135,6 +135,46 @@ class Burst(Sphere):
 
 
 class PlayerSphere(Sphere):
+    '''
+    These fields are available in PlayerSphere
+
+    self.rotating_around : Optional[RotatorSphere]
+        if player is not rotating around a rotator, it's None
+        otherwise, its a Rotator which you rotate around
+
+    self.dodge_initiated : bool
+        whether you initiated a dodge this frame
+
+    self.frames_from_dodge : int
+        number of frames after initiating a dodge
+        is_dodging: 0 < frames_from_dodge <= 30
+        is_dodge_cooldown: 30 < frames_from_dodge < 60
+        can_dodge: frames_from_dodge == 0
+
+
+    self.path : deque[Vector2]
+        list of last n coordinates,
+        where n depends on the length of your trail
+
+    self.queue_to_trail : list[Sphere]
+        list of spheres to be added to your trail
+        this is needed because when you kill another snake,
+        their tail flies to you. This list acts as your spheres
+        which cannot kill other snakes
+
+    self.trail : list[Sphere]
+        list of spheres in your trail which can kill other snakes
+
+    self.attacking_spheres: list[Sphere]
+        list of your attacking spheres. These fly straight after a dodge
+
+    self.alive : bool
+        whether you are alive or killed
+
+    self.bot: Optional[Bot]
+        None if human-controlled
+        Bot if Bot-controlled
+    '''
     max_dodge_duration = 30
     cooldown_duration = 30
     dodge_speed = 1.5
@@ -275,6 +315,35 @@ class GameStage(Enum):
 
 @dataclass
 class GameState:
+    '''GameState represents a state of this Game
+
+    player_spheres: list[PlayerSphere]
+    list of PlayerSpheres, these are humans and bots
+
+    active_spheres: list[Sphere]
+    list of Spheres which will spawn new spheres after being collected
+
+    inactive_spheres: list[Sphere]
+    list of Spheres which will NOT spawn new spheres after being collected
+
+    bursts: list[Burst]
+    list of Bursts which will collect spheres nearby
+
+    rotators: list[RotatorSphere]
+    list of rotators on this map
+
+    timer: float
+    time from the start of round
+
+    death_order: list[int]
+    order in which players died. Needed to calculate victory points
+
+    seed: int
+    seed of this round
+
+    total_uniforms: int
+    number of times random.uniform() was called
+    '''
     player_spheres: list[PlayerSphere]
     active_spheres: list[Sphere]
     inactive_spheres: list[Sphere]
