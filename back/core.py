@@ -270,20 +270,15 @@ class PlayerSphere(Sphere):
     def draw_debug(self, debug_surface: pygame.Surface):
         size = debug_surface.get_rect().size
 
-        import pygame.freetype
-        pygame.freetype.init()
-        font = pygame.freetype.SysFont('arial', 25)
-
-        def mul(point, size):
+        def mul(point):
             return point[0]*min(size), point[1]*min(size)
         
-        font.render_to(debug_surface, mul([self.center[0]+0.025, self.center[1]], size), f'{self.bot.__class__.__name__}', self.color, size=10)
-        pygame.draw.line(debug_surface, (255,255,255), mul(self.center, size), mul(self.center+self.velocity*20, size), width=3)
-        pygame.draw.circle(debug_surface, (255, 255, 255), mul(self.path[0], size), 5)
-        pygame.draw.circle(debug_surface, (255, 255, 255), mul(self.path[-1], size), 5)
-        pygame.draw.circle(debug_surface, (0, 0, 0), mul(self.path[-1], size), 3)
+        pygame.draw.line(debug_surface, (255,255,255), mul(self.center), mul(self.center+self.velocity*20), width=3)
+        pygame.draw.circle(debug_surface, (255, 255, 255), mul(self.path[0]), 5)
+        pygame.draw.circle(debug_surface, (255, 255, 255), mul(self.path[-1]), 5)
+        pygame.draw.circle(debug_surface, (0, 0, 0), mul(self.path[-1]), 3)
         if self.rotating_around:
-            pygame.draw.line(debug_surface, (255,0,0), mul(self.center, size), mul(self.rotating_around.center, size), width=3)
+            pygame.draw.line(debug_surface, (255,0,0), mul(self.center), mul(self.rotating_around.center), width=3)
             me_rotator_vector = self.rotating_around.center - self.center
             angle = me_rotator_vector.angle_to(self.velocity)
             delta_angle = 360 * DEFAULT_SPEED / (2 * math.pi * me_rotator_vector.magnitude())
@@ -296,7 +291,7 @@ class PlayerSphere(Sphere):
                 velocity_rotate_angle = 90
             rotator_me_vector = -me_rotator_vector
             new_rotator_me_vector = rotator_me_vector.rotate(delta_angle)
-            pygame.draw.line(debug_surface, (255,255,0), mul(self.rotating_around.center + new_rotator_me_vector, size), mul(self.rotating_around.center, size), width=3)
+            pygame.draw.line(debug_surface, (255,255,0), mul(self.rotating_around.center + new_rotator_me_vector), mul(self.rotating_around.center), width=3)
 
 @dataclass
 class PlayerScore:

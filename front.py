@@ -2,8 +2,12 @@ from dataclasses import dataclass
 from typing import Optional
 
 import pygame
-import pygame.freetype
 from pygame import Vector2
+
+import pygame.freetype
+pygame.freetype.init()
+font = pygame.freetype.SysFont('arial', 25)
+
 
 from back import Sphere, RotatorSphere, Burst, PlayerSphere, GameStage, color_names, Team, GameStateFront
 
@@ -34,7 +38,7 @@ def draw_burst(surface, burst: Burst, game_size):
     draw_sphere(surface, burst, game_size)
     draw_sphere(surface, burst.middle_sphere, game_size)
 
-def draw_player(surface, sphere: PlayerSphere, game_size):
+def draw_player(surface: pygame.Surface, sphere: PlayerSphere, game_size):
     if not sphere.alive: return
     for i in sphere.trail:
         draw_sphere(surface, i, game_size)
@@ -47,6 +51,11 @@ def draw_player(surface, sphere: PlayerSphere, game_size):
     else:
         draw_sphere(surface, sphere, game_size)
     draw_player_triangle(surface, sphere, game_size)
+    if sphere.bot is None:
+        text, text_size = font.render('Player', sphere.color, size=10)
+    else:
+        text, text_size = font.render(f'{sphere.bot.__class__.__name__}', sphere.color, size=10)
+    surface.blit(text, [(sphere.center[0])*min(game_size) - text_size.width / 2, (sphere.center[1]-0.025)*min(game_size) - text_size.height])
 
 font = pygame.freetype.SysFont('arial', 25)
 
